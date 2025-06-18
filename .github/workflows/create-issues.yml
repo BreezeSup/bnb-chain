@@ -1,0 +1,98 @@
+name: Create 50 Custom Issues
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  post_issues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Post 50 Customized Issues with Metadata
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issues = [
+              { title: "🐛 Bug: Validator slashing not triggering", body: "Some validators are exhibiting malicious behavior without being slashed. Investigate slashing logic and missed triggers.", labels: ["bug", "staking"] },
+              { title: "📈 Feature: Cross-chain staking support", body: "Explore adding staking features that interact with other chains via BNB Chain bridges.", labels: ["feature", "staking"] },
+              { title: "🔍 Bug: Transaction receipts missing logs", body: "Certain transaction receipts return empty or incomplete log fields. This affects dApp functionality.", labels: ["bug", "logs"] },
+              { title: "📘 Docs: Improve gas fee calculation guide", body: "Current docs lack detailed examples of gas estimation. Add sample transactions and edge cases.", labels: ["documentation", "gas"] },
+              { title: "💡 Feature: Validator reputation dashboard", body: "Implement a dashboard displaying validator uptime, missed blocks, and slashing events.", labels: ["feature", "dashboard"] },
+              { title: "🐛 Bug: Wallet disconnect on page refresh", body: "Web3 wallets like MetaMask disconnect after a hard page reload. Restore connection state from cache.", labels: ["bug", "wallet"] },
+              { title: "🧪 Test: Add unit tests for block propagation", body: "Write tests for block propagation speed and consistency under high throughput.", labels: ["testing", "performance"] },
+              { title: "📉 Bug: Delayed block finality during congestion", body: "Blocks take longer to finalize during heavy load. Profile consensus behavior under duress.", labels: ["bug", "consensus"] },
+              { title: "🔐 Feature: Native multisig contract tooling", body: "Add official tools for deploying and interacting with multisig contracts on BNB Chain.", labels: ["feature", "security"] },
+              { title: "🧰 Chore: Remove deprecated CLI flags", body: "Several CLI options are no longer supported. Clean up flag parsing and update help menu.", labels: ["chore", "cleanup"] },
+              { title: "📊 Feature: Real-time network health metrics", body: "Implement a dashboard for TPS, gas usage, pending tx, and node status.", labels: ["feature", "monitoring"] },
+              { title: "🔌 Bug: WebSocket disconnects on mobile", body: "WebSocket connections drop more frequently on mobile browsers. Investigate reconnection logic.", labels: ["bug", "mobile"] },
+              { title: "⚠️ Bug: Tokens with 0 decimals fail transfers", body: "ERC20 tokens with 0 decimal precision error during transfer execution. Validate token config handling.", labels: ["bug", "token"] },
+              { title: "🔎 Feature: Block explorer filter by validator", body: "Add validator address filter to explore their proposed blocks and transactions.", labels: ["feature", "explorer"] },
+              { title: "🛑 Bug: Faucet rate limiting bypassable", body: "Testnet faucet can be drained via bots. Enforce stricter IP-based rate limits.", labels: ["bug", "testnet"] },
+              { title: "🔧 Feature: Upgrade to latest Geth version", body: "Upgrade the BNB Chain client to the latest Geth base and test for compatibility.", labels: ["feature", "upgrade"] },
+              { title: "💬 Bug: Events not firing for token approval", body: "Approve transactions are missing the Approval event in some edge cases.", labels: ["bug", "event"] },
+              { title: "🧹 Chore: Clean up outdated genesis references", body: "References to old genesis hashes still appear in scripts/docs. Replace with current versions.", labels: ["chore", "docs"] },
+              { title: "📦 Feature: Batch transaction support in RPC", body: "Allow bundling of multiple transactions into one RPC call for efficiency.", labels: ["feature", "rpc"] },
+              { title: "🔄 Feature: Snapshot download optimization", body: "Current snapshot sync takes too long. Compress or segment to speed up initial sync.", labels: ["feature", "sync"] },
+              { title: "💸 Bug: Gas refund not applied on revert", body: "Transactions that revert should refund unused gas, but often don’t. Audit gas accounting.", labels: ["bug", "gas"] },
+              { title: "🧑‍💻 Docs: Validator node setup tutorial outdated", body: "Validator setup guide is missing required Geth flags and peer info. Refresh instructions.", labels: ["documentation", "validator"] },
+              { title: "🌐 Feature: Add GraphQL support to node", body: "Allow GraphQL queries in addition to REST and JSON-RPC.", labels: ["feature", "graphql"] },
+              { title: "🗃️ Feature: Historical gas price API", body: "Provide gas price history endpoint for dApp fee estimation models.", labels: ["feature", "api"] },
+              { title: "🔒 Bug: Contract reentrancy on specific opcodes", body: "Some contract patterns bypass reentrancy guards under rare conditions.", labels: ["bug", "security"] },
+              { title: "🧾 Feature: Transaction audit trail via hash", body: "Add feature to trace txs from contract emit to final state via tx hash.", labels: ["feature", "tracing"] },
+              { title: "📂 Bug: Block archive missing tx receipts", body: "Old archived blocks are missing some tx receipts in logs. Regenerate with complete state.", labels: ["bug", "archive"] },
+              { title: "🔔 Feature: Push alerts for tx failures", body: "Allow users/devs to receive webhooks or push notifications on tx failure.", labels: ["feature", "alerts"] },
+              { title: "📉 Bug: Chain rollback after double-sign", body: "Observed fork/rollback caused by validator double-signing. Patch consensus logic.", labels: ["bug", "consensus"] },
+              { title: "🌍 Feature: Regional RPC endpoint suggestions", body: "Improve UX by suggesting regional RPCs to reduce latency.", labels: ["feature", "rpc"] },
+              { title: "💬 Bug: MetaMask disconnects intermittently", body: "MetaMask connection breaks when switching networks repeatedly. Add auto-reconnect logic.", labels: ["bug", "wallet"] },
+              { title: "🖼️ Feature: NFT metadata fetch improvements", body: "NFTs with IPFS URIs load slowly or fail. Optimize resolver behavior and retries.", labels: ["feature", "nft"] },
+              { title: "📤 Bug: Pending transactions stuck in mempool", body: "Some txs remain pending indefinitely. Add garbage collection for stale mempool entries.", labels: ["bug", "mempool"] },
+              { title: "📄 Docs: RPC error code list incomplete", body: "Add missing error codes for edge cases like invalid nonce, underpriced tx.", labels: ["documentation", "rpc"] },
+              { title: "🧪 Test: Add fork scenario unit tests", body: "Add automated tests for fork resolution under simultaneous block proposals.", labels: ["testing", "consensus"] },
+              { title: "🌐 Feature: Browser wallet connect fallback", body: "Enable fallback UI when injected wallet is not detected, suggesting compatible wallets.", labels: ["feature", "wallet"] },
+              { title: "📜 Bug: Smart contract source not displaying", body: "Source verification fails even with correct metadata JSON. Fix verification path logic.", labels: ["bug", "contract"] },
+              { title: "🧰 Feature: Dev tools integration with Remix", body: "Add ability to deploy to BNB Chain testnet directly from Remix IDE.", labels: ["feature", "developer"] },
+              { title: "🔗 Feature: Bridge status endpoint", body: "Create an endpoint that shows bridge status (paused, fees, queues) for user apps.", labels: ["feature", "bridge"] },
+              { title: "📛 Bug: Contract names clash during deployment", body: "Contracts with same name but different hashes are overwritten. Add name+hash validation.", labels: ["bug", "deployment"] },
+              { title: "📈 Feature: Epoch-based staking rewards view", body: "Add a dashboard that visualizes staking rewards per epoch per validator.", labels: ["feature", "staking"] },
+              { title: "🧹 Chore: Remove unused contract ABIs", body: "Several old ABIs are not referenced. Clean up to reduce bundle size.", labels: ["chore", "contracts"] },
+              { title: "📉 Bug: Gas estimation too conservative", body: "Gas estimation function returns overly padded values for simple transfers.", labels: ["bug", "gas"] },
+              { title: "🗂️ Feature: Block explorer tag-based filtering", body: "Enable filtering by token standards, such as BEP-20, NFT, bridge tokens.", labels: ["feature", "explorer"] },
+              { title: "📧 Feature: Email alerts for missed blocks", body: "Allow validator operators to receive email alerts for missed block proposals.", labels: ["feature", "notifications"] },
+              { title: "🧑‍💼 Docs: Add guide for multisig wallet usage", body: "Beginner-friendly guide for setting up and managing a multisig on BNB Chain.", labels: ["documentation", "wallet"] },
+              { title: "🚫 Bug: Account nonce mismatch during rapid tx", body: "Quick successive transactions occasionally throw nonce mismatch errors.", labels: ["bug", "transaction"] },
+              { title: "🖼️ Feature: Preview NFT in wallet popup", body: "Enhance wallet UI to show preview of NFT metadata when hovering over asset entry.", labels: ["feature", "nft"] },
+              { title: "📊 Feature: Top gas burners chart", body: "Add chart to explorer showing top accounts by total gas burned per week.", labels: ["feature", "analytics"] },
+              { title: "🔧 Feature: Geth snapshot sync toggle", body: "Expose a toggle to disable snapshot sync on validator node boot.", labels: ["feature", "sync"] }
+            ];
+
+            const milestoneTitle = "v1.0";
+            const assignees = ["BreezeSup"];
+
+            const { data: milestones } = await github.rest.issues.listMilestones({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            const milestone = milestones.find(m => m.title === milestoneTitle);
+            if (!milestone) {
+              throw new Error(`❌ Milestone '${milestoneTitle}' not found. Please create it on GitHub first.`);
+            }
+
+            for (const issue of issues) {
+              const response = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: issue.title,
+                body: issue.body,
+                labels: issue.labels || [],
+                assignees,
+                milestone: milestone.number
+              });
+
+              console.log(`✅ Created: ${response.data.title} — ${response.data.html_url}`);
+            }
